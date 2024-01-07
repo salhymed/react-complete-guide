@@ -1,11 +1,11 @@
-import React, { useEffect, useReducer, useState } from 'react';
+import React, { useContext, useEffect, useReducer, useState } from 'react';
 
 import Card from '../UI/Card/Card';
 import classes from './Login.module.css';
 import Button from '../UI/Button/Button';
+import AuthContext from '../../store/auth-context';
 
 const emailReducer = (state, action) => {
-  console.log('USER_INPUT')
   if(action.type === 'USER_INPUT'){
     return {value: action.val, isValid: action.val.includes('@')}
   } 
@@ -39,7 +39,8 @@ const passwordReducer = (state, action) => {
 }
 
 
-const Login = (props) => {
+const Login = () => {
+  const ctx = useContext(AuthContext);
   // const [enteredEmail, setEnteredEmail] = useState('');
   // const [emailIsValid, setEmailIsValid] = useState();
   // const [enteredPassword, setEnteredPassword] = useState('');
@@ -48,12 +49,12 @@ const Login = (props) => {
 
   const [emailState, dispatchEmail] = useReducer(emailReducer, {
     value:'',
-    isValid: true
+    isValid: null
   });
 
   const [passwordState, dispatchPassword] = useReducer(passwordReducer,{
     value:'',
-    isValid: true
+    isValid: null
   })
 
   const {isValid: emailIsValid} = emailState;
@@ -66,7 +67,7 @@ const Login = (props) => {
       setFormIsValid(
         emailIsValid && passwordIsValid
       );
-    }, 5000);
+    }, 500);
 
     // ceanup function run before every next time excecion
     //Except for the first side Effect 
@@ -111,7 +112,7 @@ const Login = (props) => {
 
   const submitHandler = (event) => {
     event.preventDefault();
-    props.onLogin(emailState.value, passwordState.value);
+    ctx.onLogin(emailState.value, passwordState.value);
   };
 
   return (
