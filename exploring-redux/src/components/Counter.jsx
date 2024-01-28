@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { counterActions } from '../store';
 
 const Counter = () => {
-  const counter = useSelector((state) => state.counter);
+  const counter = useSelector((state) => state.counter.counter);
 
   const dispatch = useDispatch();
   const increment = () => {
@@ -20,7 +20,7 @@ const Counter = () => {
     dispatch(counterActions.increase(-5));
   };
 
-  const isVisible = useSelector((state) => state.isVisible);
+  const isVisible = useSelector((state) => state.counter.isVisible);
 
   const toggleCounterHandler = () => {
     dispatch(counterActions.toggle());
